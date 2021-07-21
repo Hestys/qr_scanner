@@ -20,7 +20,7 @@ class GenerateTextView extends StatefulWidget {
 
 class _GenerateTextViewState extends State<GenerateTextView> {
   final TextEditingController _textEditingController = TextEditingController();
-
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final DatabaseHelper _databaseHelper = DatabaseHelper();
 
   Uint8List bytes = Uint8List(0);
@@ -47,7 +47,7 @@ class _GenerateTextViewState extends State<GenerateTextView> {
     return StandartButton(
         title: 'GENERATE QR',
         onTap: () async {
-          if (_textEditingController.text.isNotEmpty) {
+          if (_formKey.currentState!.validate()) {
             await _generateBarCode(_textEditingController.text);
           }
         });
@@ -67,31 +67,36 @@ class _GenerateTextViewState extends State<GenerateTextView> {
   }
 
   Widget _buildInputTextFormField() {
-    return TextFormField(
-        controller: _textEditingController,
-        maxLines: 1,
-        style: TextStyle(color: Colors.white),
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.go,
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.text_fields,
-            color: Colors.white,
-          ),
-          suffixIcon: IconButton(
-            tooltip: 'Paste to ClipBoard',
-            icon: Icon(
-              Icons.paste,
+    return Form(
+      key: _formKey,
+      child: TextFormField(
+          controller: _textEditingController,
+          maxLines: 1,
+          style: TextStyle(color: Colors.white),
+          keyboardType: TextInputType.text,
+          validator: (String? value) =>
+              value!.isEmpty ? 'Please enter the text' : null,
+          textInputAction: TextInputAction.go,
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.text_fields,
               color: Colors.white,
             ),
-            onPressed: () async {
-              var data = await Clipboard.getData('text/plain');
-              setState(() {
-                _textEditingController.text = data!.text.toString();
-              });
-            },
-          ),
-          hintText: 'Please Input Your Text',
-        ));
+            suffixIcon: IconButton(
+              tooltip: 'Paste to ClipBoard',
+              icon: Icon(
+                Icons.paste,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                var data = await Clipboard.getData('text/plain');
+                setState(() {
+                  _textEditingController.text = data!.text.toString();
+                });
+              },
+            ),
+            hintText: 'Please Input Your Text',
+          )),
+    );
   }
 }

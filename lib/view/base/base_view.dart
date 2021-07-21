@@ -1,9 +1,10 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'generate_qr/qr_qenerate_base_view.dart';
-import 'scan_photo/scan_photo_screen.dart';
-import 'scan_qr/qr_scan_screen.dart';
-import 'package:qr_scanner/core/extension/context_extension.dart';
+
+import '../../core/extension/context_extension.dart';
+import '../generate_qr/qr_qenerate_base_view.dart';
+import '../scan_photo/scan_photo_view.dart';
+import '../scan_qr/qr_scan_view.dart';
 
 class BaseView extends StatefulWidget {
   BaseView({Key? key}) : super(key: key);

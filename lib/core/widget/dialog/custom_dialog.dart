@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_scanner/core/extension/context_extension.dart';
+
+import '../../extension/context_extension.dart';
 
 class CustomDialog extends StatefulWidget {
   final String title;

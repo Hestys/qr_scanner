@@ -25,14 +25,17 @@ class _GeneratePhoneViewState extends State<GeneratePhoneView> {
 
   final DatabaseHelper _databaseHelper = DatabaseHelper();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   List allHistory = <GenerateHistoryModel>[];
+
   Uint8List bytes = Uint8List(0);
+
   TabController? tabController;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1D1F22),
       body: SingleChildScrollView(
         padding: context.paddingMedium,
         child: Column(
@@ -49,32 +52,38 @@ class _GeneratePhoneViewState extends State<GeneratePhoneView> {
   }
 
   Widget _buildTextField() {
-    return TextFormField(
-      style: TextStyle(color: Colors.white),
-      controller: _phoneTextEditingController,
-      maxLines: 1,
-      keyboardType: TextInputType.phone,
-      decoration: InputDecoration(
-        prefixIcon: Icon(
-          Icons.phone,
-          color: Colors.white,
-        ),
-        suffixIcon: IconButton(
-          tooltip: 'Paste From Contact',
-          icon: Icon(
-            Icons.person_add,
+    return Form(
+      key: _formKey,
+      child: TextFormField(
+        style: TextStyle(color: Colors.white),
+        controller: _phoneTextEditingController,
+        maxLines: 1,
+        keyboardType: TextInputType.phone,
+        validator: (String? value) =>
+            value!.isEmpty ? 'Please enter the phone' : null,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.phone,
             color: Colors.white,
           ),
-          onPressed: () async {
-            final contact = await FlutterContactPicker.pickPhoneContact();
-            if (contact.phoneNumber!.number!.isNotEmpty) {
-              setState(() {
-                _phoneTextEditingController.text = contact.phoneNumber!.number!;
-              });
-            }
-          },
+          suffixIcon: IconButton(
+            tooltip: 'Paste From Contact',
+            icon: Icon(
+              Icons.person_add,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              final contact = await FlutterContactPicker.pickPhoneContact();
+              if (contact.phoneNumber!.number!.isNotEmpty) {
+                setState(() {
+                  _phoneTextEditingController.text =
+                      contact.phoneNumber!.number!;
+                });
+              }
+            },
+          ),
+          hintText: '+90xxxxxxxxxx',
         ),
-        hintText: '+90xxxxxxxxxx',
       ),
     );
   }
@@ -82,19 +91,21 @@ class _GeneratePhoneViewState extends State<GeneratePhoneView> {
   Widget _buildStandartButton() {
     return StandartButton(
         title: 'GENERATE QR',
-        onTap: () {
-          _generateBarCode(_phoneTextEditingController.text);
+        onTap: () async {
+          if (_formKey.currentState!.validate()) {
+            await _generateBarCode(_phoneTextEditingController.text);
+            await addDatabese();
+          }
         });
   }
 
   Future<void> _generateBarCode(String inputCode) async {
     var result = await scanner.generateBarCode(inputCode);
     setState(() => bytes = result);
-    addDatabese();
   }
 
-  void addDatabese() async {
-    await _databaseHelper.insert(
+  Future<int> addDatabese() async {
+    return await _databaseHelper.insert(
         GenerateHistoryModel('Phone', _phoneTextEditingController.text, bytes));
   }
 }

@@ -25,6 +25,9 @@ class _GenerateWifiQrState extends State<GenerateWifiQr> {
       TextEditingController();
 
   final _databaseHelper = DatabaseHelper();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool isPasswordVisible = false;
   Uint8List bytes = Uint8List(0);
 
@@ -56,18 +59,20 @@ class _GenerateWifiQrState extends State<GenerateWifiQr> {
   Widget buildStandartButton() {
     return StandartButton(
         title: 'GENERATE QR',
-        onTap: () {
-          _generateBarCode('WIFI:' +
-              _nameTextEdittingController.text +
-              ':' +
-              _passwordTextEdittingController.text);
+        onTap: () async {
+          if (_formKey.currentState!.validate()) {
+            await _generateBarCode('WIFI:' +
+                _nameTextEdittingController.text +
+                ':' +
+                _passwordTextEdittingController.text);
+            await addDatabese();
+          }
         });
   }
 
-  Future _generateBarCode(String inputCode) async {
+  Future<void> _generateBarCode(String inputCode) async {
     final result = await scanner.generateBarCode(inputCode);
     setState(() => bytes = result);
-    await addDatabese();
   }
 
   Future<void> addDatabese() async {
@@ -81,12 +86,15 @@ class _GenerateWifiQrState extends State<GenerateWifiQr> {
   }
 
   Widget _buildTextFormFields() {
-    return Column(
-      children: [
-        buildWifiNameTextFormField(),
-        NormalSizedBox(),
-        buildWifiPassTextFormField(),
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          buildWifiNameTextFormField(),
+          NormalSizedBox(),
+          buildWifiPassTextFormField(),
+        ],
+      ),
     );
   }
 
@@ -94,6 +102,8 @@ class _GenerateWifiQrState extends State<GenerateWifiQr> {
     return TextFormField(
       textInputAction: TextInputAction.go,
       cursorColor: Colors.white,
+      validator: (String? value) =>
+          value!.isEmpty ? 'Please enter the password' : null,
       style: TextStyle(color: Colors.white),
       obscureText: isPasswordVisible,
       controller: _passwordTextEdittingController,
@@ -118,6 +128,8 @@ class _GenerateWifiQrState extends State<GenerateWifiQr> {
     return TextFormField(
       style: TextStyle(color: Colors.white),
       controller: _nameTextEdittingController,
+      validator: (String? value) =>
+          value!.isEmpty ? 'Please enter the name' : null,
       decoration: InputDecoration(
         hintText: 'Wi-Fi Name',
         labelText: 'Name',

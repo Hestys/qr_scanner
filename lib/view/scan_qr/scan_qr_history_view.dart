@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_scanner/core/widget/progress_bar/loading_widget.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 import '../../core/init/service/local_database/scan_qr_db_serviece.dart';
@@ -34,22 +35,13 @@ class _ScanQrHistoryState extends State<ScanQrHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1D1F22),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text('Scan Qr History',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.bold)),
+        title: Text(
+          'Scan Qr History',
+        ),
       ),
       body: widget.history == null
-          ? Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.white,
-              ),
-            )
+          ? LoadingWidget()
           : ListView.builder(
               itemCount: widget.history!.length,
               itemBuilder: (context, index) {

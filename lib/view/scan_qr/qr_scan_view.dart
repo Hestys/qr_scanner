@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qr_scanner/view/_product/widget/normal_sized_box.dart';
+import 'package:qr_scanner/view/base/result_detail_view.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import '../../core/extension/context_extension.dart';
 import '../../core/widget/button/standart_button.dart';
-import 'scan_qr_history.dart';
-import 'show_scan_deatils.dart';
+import '../_product/widget/normal_sized_box.dart';
+import 'scan_qr_history_view.dart';
 
 class QrScanScreen extends StatefulWidget {
   QrScanScreen({key}) : super(key: key);
@@ -67,7 +67,6 @@ class _QrScanScreenState extends State<QrScanScreen> {
           icon: Icon(
             Icons.restore,
             color: Colors.white,
-            size: 30,
           ),
         ),
       ],
@@ -81,14 +80,14 @@ class _QrScanScreenState extends State<QrScanScreen> {
     if (barcode == null) {
       print('Nothing return.');
     } else {
-      setState(() async {
+      setState(() {
         _outputController.text = barcode!;
-        setState(() {});
-        await Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ShowDeatilsScan(_outputController.text)));
       });
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ResultDetailView(result: _outputController.text)));
     }
   }
 
@@ -117,8 +116,8 @@ class _QrScanScreenState extends State<QrScanScreen> {
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              ShowDeatilsScan(_outputController.text)));
+                          builder: (context) => ResultDetailView(
+                              result: _outputController.text)));
                 } else {
                   //showAlertDialog(context);
                 }

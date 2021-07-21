@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:qr_scanner/view/_product/widget/normal_sized_box.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import '../../core/extension/context_extension.dart';
 import '../../core/widget/button/standart_button.dart';
-import 'scan_photo_detail.dart';
+import '../_product/widget/normal_sized_box.dart';
+import '../base/result_detail_view.dart';
 
 // ignore: must_be_immutable
 class ScanPhotoScreen extends StatefulWidget {
@@ -84,7 +84,7 @@ class _ScanPhotoScreenState extends State<ScanPhotoScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ScanPhotoDetailView(
+                      builder: (context) => ResultDetailView(
                             result: _outputController.text,
                           )));
             }
@@ -103,11 +103,12 @@ class _ScanPhotoScreenState extends State<ScanPhotoScreen> {
       if (file == null) return;
       var bytes = file.readAsBytes();
       var barcode = await scanner.scanBytes(await bytes);
+      print(barcode);
       _outputController.text = barcode;
       await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ScanPhotoDetailView(
+              builder: (context) => ResultDetailView(
                     result: barcode,
                   )));
     } catch (e) {

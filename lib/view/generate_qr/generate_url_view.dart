@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qr_scanner/view/_product/widget/normal_sized_box.dart';
+import '../_product/widget/normal_sized_box.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import '../../core/extension/context_extension.dart';
@@ -21,6 +21,8 @@ class GenerateUrlView extends StatefulWidget {
 class _GenerateUrlViewState extends State<GenerateUrlView> {
   final TextEditingController _urlTextEditingController =
       TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final DatabaseHelper _databaseHelper = DatabaseHelper();
 
@@ -46,30 +48,35 @@ class _GenerateUrlViewState extends State<GenerateUrlView> {
   }
 
   Widget _buildUrlTextFormField() {
-    return TextFormField(
-      style: TextStyle(color: Colors.white),
-      controller: _urlTextEditingController,
-      maxLines: 1,
-      keyboardType: TextInputType.url,
-      decoration: InputDecoration(
-        prefixIcon: Icon(
-          Icons.link,
-          color: Colors.white,
-        ),
-        suffixIcon: IconButton(
-          tooltip: 'Paste to ClipBoard',
-          icon: Icon(
-            Icons.paste,
+    return Form(
+      key: _formKey,
+      child: TextFormField(
+        style: TextStyle(color: Colors.white),
+        controller: _urlTextEditingController,
+        maxLines: 1,
+        validator: (String? value) =>
+            value!.isEmpty ? 'Please enter the url' : null,
+        keyboardType: TextInputType.url,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.link,
             color: Colors.white,
           ),
-          onPressed: () async {
-            var data = await Clipboard.getData('text/plain');
-            setState(() {
-              _urlTextEditingController.text = data!.text.toString();
-            });
-          },
+          suffixIcon: IconButton(
+            tooltip: 'Paste to ClipBoard',
+            icon: Icon(
+              Icons.paste,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              var data = await Clipboard.getData('text/plain');
+              setState(() {
+                _urlTextEditingController.text = data!.text.toString();
+              });
+            },
+          ),
+          hintText: 'http://www.example.com',
         ),
-        hintText: 'http://www.example.com',
       ),
     );
   }
@@ -78,8 +85,10 @@ class _GenerateUrlViewState extends State<GenerateUrlView> {
     return StandartButton(
         title: 'GENERATE QR',
         onTap: () async {
-          await _generateBarCode(_urlTextEditingController.text);
-          await addDatabese();
+          if (_formKey.currentState!.validate()) {
+            await _generateBarCode(_urlTextEditingController.text);
+            await addDatabese();
+          }
         });
   }
 

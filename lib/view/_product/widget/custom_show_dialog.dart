@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_scanner/core/widget/dialog/custom_dialog.dart';
+
+import '../../../core/widget/dialog/custom_dialog.dart';
 
 class CustomShowDialog {
   static Future<void> showSuccesDialog(BuildContext context) async {
