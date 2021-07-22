@@ -16,16 +16,6 @@ class ScanQrHistory extends StatefulWidget {
 class _ScanQrHistoryState extends State<ScanQrHistory> {
   final ScanQrHistoryDbService _databaseHelper = ScanQrHistoryDbService();
 
-  void getHistory() async {
-    var historyFuture = _databaseHelper.getScanHistory();
-
-    await historyFuture.then((data) {
-      setState(() {
-        widget.history = data;
-      });
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -35,59 +25,77 @@ class _ScanQrHistoryState extends State<ScanQrHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Scan Qr History',
-        ),
-      ),
+      appBar: buildAppBar(),
       body: widget.history == null
           ? LoadingWidget()
           : ListView.builder(
               itemCount: widget.history!.length,
               itemBuilder: (context, index) {
-                return Card(
-                  color: Color(0xff325CFD),
-                  child: ListTile(
-                    onTap: () {},
-                    leading: Image.memory(widget.history![index].photo),
-                    title: Text(
-                      widget.history![index].text,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    subtitle: Row(
-                      children: [
-                        IconButton(
-                            icon: Icon(
-                              Icons.share,
-                              color: Colors.white,
-                            ),
-                            onPressed: () async {
-                              if (widget.history![index].photo != null) {
-                                await WcFlutterShare.share(
-                                    sharePopupTitle: 'share',
-                                    fileName: 'share.png',
-                                    mimeType: 'image/png',
-                                    bytesOfFile: widget.history![index].photo);
-                              }
-                            })
-                      ],
-                    ),
-                    trailing: IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        ),
-                        onPressed: () async {
-                          await _databaseHelper
-                              .deleteForScan(widget.history![index].id);
-                          setState(() {
-                            getHistory();
-                          });
-                        }),
-                  ),
-                );
+                return buildCard(index);
               },
             ),
     );
+  }
+
+  Widget buildCard(int index) {
+    return Card(
+      color: Color(0xff325CFD),
+      child: ListTile(
+        onTap: () {},
+        leading: Image.memory(widget.history![index].photo),
+        title: Text(
+          widget.history![index].text,
+          style: TextStyle(color: Colors.white),
+        ),
+        subtitle: buildShareButton(index),
+        trailing: IconButton(
+            icon: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              await _databaseHelper.deleteForScan(widget.history![index].id);
+              setState(() {
+                getHistory();
+              });
+            }),
+      ),
+    );
+  }
+
+  Widget buildShareButton(int index) {
+    return Row(
+      children: [
+        IconButton(
+            icon: Icon(
+              Icons.share,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              if (widget.history![index].photo != null) {
+                await WcFlutterShare.share(
+                    sharePopupTitle: 'share',
+                    fileName: 'share.png',
+                    mimeType: 'image/png',
+                    bytesOfFile: widget.history![index].photo);
+              }
+            })
+      ],
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      title: Text(
+        'Scan Qr History',
+      ),
+    );
+  }
+
+  Future<void> getHistory() async {
+    var historyFuture = await _databaseHelper.getScanHistory();
+    setState(() {
+      widget.history = historyFuture;
+    });
   }
 }

@@ -20,6 +20,10 @@ class _QrScanScreenState extends State<QrScanScreen> {
   final GlobalKey key = GlobalKey<ScaffoldState>();
 
   String? barcode;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
