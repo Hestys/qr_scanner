@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-
+import '../../../core/extension/context_extension.dart';
 import '../../../core/widget/dialog/custom_dialog.dart';
 
 class CustomShowDialog {
@@ -23,7 +23,7 @@ class CustomShowDialog {
                 },
                 child: AutoSizeText(
                   'OK',
-                  style: TextStyle(color: Color(0xff325CFD)),
+                  style: TextStyle(color: context.colorScheme.primary),
                 )),
           ],
         ),

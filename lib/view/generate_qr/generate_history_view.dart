@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
-import '../../core/init/service/local_database/db_helper.dart';
+import '../../core/extension/context_extension.dart';
+import '../../core/init/service/local_database/qr_generate_history_db_services.dart';
 import '../../model/generate_history_model.dart';
 
 class GenerateHistory extends StatefulWidget {
@@ -34,7 +35,7 @@ class _GenerateHistoryState extends State<GenerateHistory> {
 
   Widget _buildListViewCard(int index) {
     return Card(
-      color: Color(0xff325CFD),
+      color: context.colorScheme.primary,
       child: ListTile(
         onTap: () {},
         leading: Image.memory(allHistory[index].photo!),

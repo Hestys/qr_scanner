@@ -5,6 +5,7 @@ import 'generate_more_view.dart';
 import 'generate_phone_view.dart';
 import 'generate_text_view.dart';
 import 'generate_url_view.dart';
+import '../../core/extension/context_extension.dart';
 
 class QrGenerateScreen extends StatefulWidget {
   QrGenerateScreen({key}) : super(key: key);
@@ -65,7 +66,7 @@ class _QrGenerateScreenState extends State<QrGenerateScreen>
     return TabBar(
       labelColor: Colors.white,
       controller: tabController,
-      indicatorColor: Color(0xff325CFD),
+      indicatorColor: context.colorScheme.primary,
       tabs: [
         Tab(
           text: 'Text',

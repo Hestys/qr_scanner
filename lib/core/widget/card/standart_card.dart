@@ -32,8 +32,9 @@ class _StandartCardState extends State<StandartCard> {
                 height: context.height * 0.2,
                 child: widget.byte.isEmpty
                     ? Center(
-                        child: Text('Generate QR',
-                            style: TextStyle(color: Colors.black38)),
+                        child: Text(
+                          'Generate QR',
+                        ),
                       )
                     : Image.memory(widget.byte),
               ),
@@ -51,7 +52,7 @@ class _StandartCardState extends State<StandartCard> {
       child: Container(
         height: context.height * .03,
         width: context.width,
-        color: Color(0xff325CFD),
+        color:context.colorScheme.primary,
       ),
     );
   }
@@ -64,7 +65,7 @@ class _StandartCardState extends State<StandartCard> {
           onPressed: () => setState(() => widget.byte = Uint8List(0)),
           child: Text(
             'Remove',
-            style: TextStyle(fontSize: 15, color: Color(0xff325CFD)),
+            style: TextStyle(fontSize: 15, color: context.colorScheme.primary),
           ),
         ),
         Text('|', style: TextStyle(fontSize: 15, color: Colors.black26)),
@@ -85,7 +86,7 @@ class _StandartCardState extends State<StandartCard> {
           },
           child: Text(
             'Save',
-            style: TextStyle(fontSize: 15, color: Color(0xff325CFD)),
+            style: TextStyle(fontSize: 15, color: context.colorScheme.primary),
           ),
         ),
         _buildShareButton()

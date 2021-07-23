@@ -78,7 +78,7 @@ class CustomDialogState extends State<CustomDialog>
                   style: widget.titleStyle ??
                       TextStyle(
                           fontSize: 25,
-                          color: Color(0xff325CFD),
+                          color: context.colorScheme.primary,
                           fontWeight: FontWeight.w500),
                 ),
                 Row(

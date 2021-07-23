@@ -38,7 +38,7 @@ class _BaseViewState extends State<BaseView> {
         selectedColor: Color(0xffFFFFFF),
         strokeColor: Color(0xffFFFFFF),
         unSelectedColor: Color(0xffBBC9FE),
-        backgroundColor: Color(0xff325CFD),
+        backgroundColor: context.colorScheme.primary,
         borderRadius: Radius.circular(50.0),
         items: [
           CustomNavigationBarItem(

@@ -5,7 +5,7 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import '../../core/extension/context_extension.dart';
-import '../../core/init/service/local_database/db_helper.dart';
+import '../../core/init/service/local_database/qr_generate_history_db_services.dart';
 import '../../core/widget/button/standart_button.dart';
 import '../../core/widget/card/standart_card.dart';
 import '../../model/generate_history_model.dart';
@@ -134,9 +134,9 @@ class _GenerateSmsQrState extends State<GenerateSmsQr> {
   Future<void> addDatabese() async {
     await _databaseHelper.insert(GenerateHistoryModel(
         'Sms',
-        'sms:' +
+        'sms: ' +
             _numberTextEditingController.text +
-            'body' +
+            ' Body' +
             _bodyTextEditingController.text,
         bytes));
   }

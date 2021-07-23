@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_scanner/core/extension/context_extension.dart';
+import '../../../core/extension/context_extension.dart';
 
 class CustomDetailButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -20,7 +20,7 @@ class CustomDetailButton extends StatelessWidget {
           width: context.width * .3,
           height: context.height * .08,
           decoration: BoxDecoration(
-            color: Color(0xff325CFD),
+            color: context.colorScheme.primary,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Center(

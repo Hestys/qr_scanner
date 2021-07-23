@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../extension/context_extension.dart';
 
 class StandartButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -15,7 +16,7 @@ class StandartButton extends StatelessWidget {
         width: 200,
         height: 60,
         decoration: BoxDecoration(
-            color: Color(0xff325CFD),
+            color: context.colorScheme.primary,
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(15),
                 bottomLeft: Radius.circular(15))),

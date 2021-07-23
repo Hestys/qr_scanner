@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qr_scanner/core/widget/progress_bar/loading_widget.dart';
+import '../../core/widget/progress_bar/loading_widget.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
+import '../../core/extension/context_extension.dart';
 
 import '../../core/init/service/local_database/scan_qr_db_serviece.dart';
 
@@ -39,7 +40,7 @@ class _ScanQrHistoryState extends State<ScanQrHistory> {
 
   Widget buildCard(int index) {
     return Card(
-      color: Color(0xff325CFD),
+      color: context.colorScheme.primary,
       child: ListTile(
         onTap: () {},
         leading: Image.memory(widget.history![index].photo),

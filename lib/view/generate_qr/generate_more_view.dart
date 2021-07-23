@@ -38,7 +38,7 @@ class _GenerateMoreListState extends State<GenerateMoreList> {
 
   Widget buildNavigateEmailListTile() {
     return ListTile(
-      tileColor: Color(0xff325CFD),
+      tileColor: context.colorScheme.primary,
       leading: Icon(
         Icons.email,
         color: Colors.white,
@@ -53,7 +53,7 @@ class _GenerateMoreListState extends State<GenerateMoreList> {
 
   Widget buildNavigateMapListTile() {
     return ListTile(
-      tileColor: Color(0xff325CFD),
+      tileColor: context.colorScheme.primary,
       leading: Icon(
         Icons.place,
         color: Colors.white,
@@ -68,7 +68,7 @@ class _GenerateMoreListState extends State<GenerateMoreList> {
 
   Widget buildNavigateSmsListTile() {
     return ListTile(
-      tileColor: Color(0xff325CFD),
+      tileColor: context.colorScheme.primary,
       leading: Icon(
         Icons.sms,
         color: Colors.white,
@@ -83,7 +83,7 @@ class _GenerateMoreListState extends State<GenerateMoreList> {
 
   Widget buildNavigateWifiListTile() {
     return ListTile(
-      tileColor: Color(0xff325CFD),
+      tileColor: context.colorScheme.primary,
       leading: Icon(
         Icons.wifi,
         color: Colors.white,

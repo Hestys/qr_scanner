@@ -99,7 +99,7 @@ class _ScanPhotoScreenState extends State<ScanPhotoScreen> {
 
   Future _scanBytes() async {
     try {
-      var file = await ImagePicker().getImage(source: ImageSource.gallery);
+      var file = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (file == null) return;
       var bytes = file.readAsBytes();
       var barcode = await scanner.scanBytes(await bytes);

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import '../../core/extension/context_extension.dart';
-import '../../core/init/service/local_database/db_helper.dart';
+import '../../core/init/service/local_database/qr_generate_history_db_services.dart';
 import '../../core/widget/button/standart_button.dart';
 import '../../core/widget/card/standart_card.dart';
 import '../../model/generate_history_model.dart';
@@ -145,11 +145,11 @@ class _GenerateMapState extends State<GenerateMap> {
   Future<void> addDatabese() async {
     await _databaseHelper.insert(GenerateHistoryModel(
         'Map',
-        'o:' +
+        'Latitude: ' +
             _latitudeTextEditingController!.text +
-            '.0,' +
+            ' Longitude: ,' +
             _longitudeTextEditingController!.text +
-            '.0?q=' +
+            ' Query: ' +
             _queryTextEditingController!.text,
         bytes));
   }

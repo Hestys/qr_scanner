@@ -13,10 +13,26 @@ class DarkTheme extends AppTheme with IDarkTheme {
 
   @override
   ThemeData get theme => ThemeData(
-      scaffoldBackgroundColor: Color(0xff1D1F22),
+      scaffoldBackgroundColor: colorSchema.black,
       fontFamily: GoogleFonts.poppins().fontFamily,
       appBarTheme: _appBarTheme,
+      colorScheme: _colorSceheme,
       inputDecorationTheme: _inputDecorationTheme);
+
+  ColorScheme get _colorSceheme => ColorScheme(
+      primary: colorSchema.blue,
+      primaryVariant: Colors.white,
+      secondary: colorSchema.black,
+      secondaryVariant: Colors.white,
+      surface: Colors.white,
+      background: Colors.white,
+      error: Colors.white,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: Colors.white,
+      onBackground: Colors.white,
+      onError: colorSchema.black,
+      brightness: Brightness.dark);
 
   AppBarTheme get _appBarTheme => ThemeData.dark().appBarTheme.copyWith(
       centerTitle: true,

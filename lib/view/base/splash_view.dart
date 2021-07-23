@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/extension/context_extension.dart';
+import '../../core/widget/progress_bar/loading_widget.dart';
 import 'base_view.dart';
 
 class SplashView extends StatefulWidget {
@@ -35,8 +37,8 @@ class _SplashViewState extends State<SplashView> {
                 fontSize: 30.0,
                 color: Colors.white),
           ),
-          CircularProgressIndicator(
-            color: Color(0xff325CFD),
+          LoadingWidget(
+            color: context.colorScheme.primary,
           )
         ],
       ),

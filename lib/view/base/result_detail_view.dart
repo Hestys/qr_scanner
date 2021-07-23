@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qr_scanner/view/_product/widget/custom_detail_button.dart';
-import 'package:qr_scanner/view/_product/widget/normal_sized_box.dart';
+import '../_product/widget/custom_detail_button.dart';
+import '../_product/widget/normal_sized_box.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -112,7 +112,7 @@ class _ResultDetailViewState extends State<ResultDetailView> {
         if (_outputController.text.isNotEmpty) {
           Clipboard.setData(ClipboardData(text: _outputController.text));
           final snackBar = SnackBar(
-              content: Text('Copied'), backgroundColor: Color(0xff325CFD));
+              content: Text('Copied'), backgroundColor:context.colorScheme.primary);
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qr_scanner/view/base/result_detail_view.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import '../../core/extension/context_extension.dart';
+import '../../core/init/service/local_database/scan_qr_db_serviece.dart';
 import '../../core/widget/button/standart_button.dart';
+import '../../model/scan_history_model.dart';
 import '../_product/widget/normal_sized_box.dart';
+import '../base/result_detail_view.dart';
 import 'scan_qr_history_view.dart';
 
 class QrScanScreen extends StatefulWidget {
@@ -17,13 +19,12 @@ class QrScanScreen extends StatefulWidget {
 
 class _QrScanScreenState extends State<QrScanScreen> {
   final TextEditingController _outputController = TextEditingController();
+
   final GlobalKey key = GlobalKey<ScaffoldState>();
 
+  final ScanQrHistoryDbService _dbService = ScanQrHistoryDbService();
+
   String? barcode;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +88,10 @@ class _QrScanScreenState extends State<QrScanScreen> {
       setState(() {
         _outputController.text = barcode!;
       });
+
+      await _dbService.insertForScan(
+          ScanHistoryModel(barcode, await scanner.generateBarCode(barcode!)));
+
       await Navigator.push(
           context,
           MaterialPageRoute(

@@ -20,3 +20,9 @@ extension PaddingExtensionAll on BuildContext {
   EdgeInsets get paddingMedium => EdgeInsets.all(mediumValue);
   EdgeInsets get paddingHigh => EdgeInsets.all(highValue);
 }
+
+extension ThemeExtension on BuildContext {
+  ThemeData get theme => Theme.of(this);
+  TextTheme get textTheme => theme.textTheme;
+  ColorScheme get colorScheme => theme.colorScheme;
+}
